@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@plugin './hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+
+:root {
+    --main-color: #1337EC;
+    --success-color: #059669;
+    --danger-color: #DC2626;
+    --danger-mss-color: #E2E8F0;
+    --bg-color: #F8FAFC80;
+}
