@@ -1,15 +1,17 @@
 import { Button } from "@heroui/react";
 type TCustomButton = {
+    type: "button" | "submit" | "reset";
     color: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
     text: string;
-    onPress: () => void;
-    icon: React.ReactNode;
+    onPress?: () => void;
+    icon?: React.ReactNode;
+    isDisabled?: boolean;
 }
 
-const CustomButton = ({ color, text = 'click here', onPress, icon }: TCustomButton) => {
+const CustomButton = ({ type, color, text = 'click here', onPress, icon, isDisabled }: TCustomButton) => {
     return (
         <div>
-            <Button color={color} onPress={onPress} startContent={icon} className="text-white text-sm font-medium">
+            <Button type={type} color={color} onPress={onPress} startContent={icon} isDisabled={isDisabled} className="text-white text-sm font-medium w-full">
                 {text}
             </Button>
         </div>

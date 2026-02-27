@@ -6,11 +6,9 @@ const AddNewUserSchema = z.object({
         .max(100, { message: "Name is too long" }), // اختيارياً
     email: z
         .string()
-        .min(1, { message: "Email is required" }) // لازم الايميل موجود
-        .email({ message: "Invalid email format" }), // تحقق من صيغة الايميل
-    roleId: z
-        .string()
-        .min(1, { message: "Role is required" }) // لازم يختار رول
+        .email({ message: "Invalid email format" }) // تحقق من صيغة الايميل
+        .min(1, { message: "Email is required" }), // لازم الايميل موجود
+    roleId: z.string().min(1, "Role is required")
 });
 
 type AddNewUserType = z.infer<typeof AddNewUserSchema>

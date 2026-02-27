@@ -1,73 +1,183 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Task Overview
 
-Currently, two official plugins are available:
+This feature was implemented as part of the ABS.AI Frontend Internship Practical Task.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The goal was to build a scalable, enterprise-ready User Management Overview inside:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+modules/operations/sub-modules/client-support/features/overview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The implementation strictly follows clean architecture principles and proper separation of concerns.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+-------------------------
+
+# 🚀 Tech Stack Used
+
+- React
+- TypeScript
+- React Query
+- React Hook Form
+- Zod (validation)
+- Axios
+- TailwindCSS
+- HeroUI
+- React Router DOM
+- React Icons
+
+
+-------------------------
+
+
+# 🧠 Architectural Decisions
+
+The feature follows strict separation:
+
 ```
+overview/
+│
+├── components/        → UI Components only
+│   ├── AddUserForm.tsx
+│   └── UsersTable.tsx
+│
+├── page/
+│   └── Overview.tsx   → Page composition only
+│
+├── services/          → API layer (axios only here)
+│   ├── users.service.ts
+│   └── roles.service.ts
+│
+└── types/             → Strong TypeScript definitions
+    ├── user.types.ts
+    └── role.types.ts
+```
+
+### Important Notes
+
+- No API calls inside UI components
+- No type definitions inside components
+- No usage of `any`
+- No hardcoded data
+- Overview.tsx handles only composition logic
+
+-------------------------
+
+# 🔄 API Response Adjustment (Important)
+
+While implementing the feature, the backend API response structure did not fully match the structure described in the provided PDF.
+
+Specifically:
+- The API returned data in a slightly different format than expected.
+- Some field names differed from the required type definitions.
+
+To resolve this:
+- The service layer safely maps backend responses into the required TypeScript interfaces.
+- No architectural rules were violated.
+- The types remain strictly aligned with the task specification.
+
+This ensures:
+- Strong typing
+- No breaking changes
+- Clean separation between backend inconsistencies and UI layer
+
+-------------------------
+
+# 📡 Data Handling
+
+## Users Fetching
+
+- Implemented using `useQuery`
+- Proper query keys used
+- Loading, error, and empty states handled
+
+## Roles Fetching
+
+- Implemented using `useQuery`
+- Cached correctly using React Query
+- Used to populate the role selector
+
+## Add User
+
+- Implemented using `useMutation`
+- React Hook Form for form state
+- Zod for validation (required fields + email format)
+- Submit disabled during request
+- Form resets on success
+- Users list refetched automatically after creation
+
+-------------------------
+
+# 🔍 Learning & Research
+
+React Query was researched and learned specifically for this task to ensure correct usage of:
+
+- useQuery
+- useMutation
+- Cache invalidation
+- Query keys strategy
+
+ChatGPT was used as a research and productivity assistant to:
+- Clarify architectural decisions
+- Review best practices
+- Improve implementation quality
+
+All core logic and structure decisions were implemented and understood.
+
+-------------------------
+
+# 🛠 How to Run the Project
+
+## 1️⃣ Clone the repository
+
+```
+git clone <your-repo-link>
+```
+
+## 2️⃣ Install dependencies
+
+```
+npm install
+```
+
+## 3️⃣ Start development server
+
+```
+npm run dev
+```
+
+## 4️⃣ Build project
+
+```
+npm run build
+```
+
+-------------------------
+
+# ⚙️ Assumptions Made
+
+- Backend is running and accessible.
+- Role IDs correspond correctly to backend values.
+- API base URL remains consistent.
+
+-------------------------
+
+# ✅ What Was Prioritized
+
+- Clean architecture over UI complexity
+- Strong typing everywhere
+- Scalable structure
+- Production-level separation of concerns
+
+-------------------------
+
+# 📌 Final Note
+
+This implementation reflects real-world enterprise frontend structure:
+
+- Modular architecture
+- Service-based API layer
+- Strict typing
+- No logic leakage between layers
+- Scalable and maintainable structure

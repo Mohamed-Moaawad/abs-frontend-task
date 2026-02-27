@@ -6,7 +6,7 @@ const Layout = () => {
     return (
         <>
             <main className="flex flex-wrap">
-                <div className="w-full md:w-2/12">
+                <div className="w-full hidden md:block md:w-2/12 ">
                     <Sidebar />
                 </div>
                 <div className="w-full md:w-10/12">
